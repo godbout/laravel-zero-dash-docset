@@ -61,7 +61,7 @@ class LaravelZeroTest extends TestCase
     /** @test */
     public function the_left_sidebar_gets_removed_from_the_dash_docset_files()
     {
-        $leftSidebar = 'id="js-nav-menu"';
+        $leftSidebar = 'class="docs-nav';
 
         $this->assertStringContainsString(
             $leftSidebar,
@@ -136,22 +136,13 @@ class LaravelZeroTest extends TestCase
     public function the_JavaScript_tags_get_removed_from_the_dash_docset_files()
     {
         $this->assertStringContainsString(
-            '<script>',
+            '<script ',
             Storage::get($this->docset->downloadedIndex())
         );
 
         $this->assertStringNotContainsString(
-            '<script>',
+            '<script ',
             $this->docset->innerIndex()
-        );
-    }
-
-    /** @test */
-    public function it_inserts_dash_anchors_in_the_doc_files()
-    {
-        $this->assertStringContainsString(
-            'name="//apple_ref/',
-            Storage::get($this->docset->innerIndex())
         );
     }
 
