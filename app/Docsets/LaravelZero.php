@@ -14,7 +14,7 @@ class LaravelZero extends BaseDocset
     public const CODE = 'laravel-zero';
     public const NAME = 'Laravel Zero';
     public const URL = 'laravel-zero.com';
-    public const INDEX = 'docs/introduction/index.html';
+    public const INDEX = 'docs/introduction.html';
     public const PLAYGROUND = '';
     public const ICON_16 = '../../icons/icon.png';
     public const ICON_32 = '../../icons/icon@2x.png';
@@ -36,28 +36,19 @@ class LaravelZero extends BaseDocset
 
     protected function guideEntries(HtmlPageCrawler $crawler, string $file)
     {
-        $pageTitle = (new HtmlPage(Storage::get($file)))->getTitle();
-
         $entries = collect();
 
-        if ($pageTitle === 'Laravel Zero | Introduction') {
-            $crawler->filter('.lvl0, .lvl1')->each(function (HtmlPageCrawler $node) use ($entries) {
-                if ($this->isRealPage(trim($node->text()))) {
-                    $entries->push([
-                        'name' => trim($node->text()),
-                        'type' => 'Guide',
-                        'path' => $this->url() . '/docs/introduction/' . $node->attr('href')
-                    ]);
-                }
+        if (Str::contains($file, "{$this->url()}/docs/introduction.html")) {
+            $crawler->filter('.docs-nav a')->each(function (HtmlPageCrawler $node) use ($entries) {
+                $entries->push([
+                    'name' => trim($node->text()),
+                    'type' => 'Guide',
+                    'path' => $this->url() . '/docs/' . $node->attr('href')
+                ]);
             });
         }
 
         return $entries;
-    }
-
-    protected function isRealPage($name)
-    {
-        return ! in_array($name, ['Usage', 'Add-ons']);
     }
 
     protected function sectionEntries(HtmlPageCrawler $crawler, string $file)
@@ -90,11 +81,14 @@ class LaravelZero extends BaseDocset
         $this->removeHeader($crawler);
         $this->removeLeftSidebar($crawler);
         $this->removeFooter($crawler);
+
         $this->updateTopPadding($crawler);
         $this->updateContainerWidth($crawler);
         $this->updateBottomPadding($crawler);
+
         $this->removeUnwantedCSS($crawler);
         $this->removeUnwantedJavaScript($crawler);
+
         $this->insertDashTableOfContents($crawler);
 
         return $crawler->saveHTML();
@@ -107,7 +101,7 @@ class LaravelZero extends BaseDocset
 
     protected function removeLeftSidebar(HtmlPageCrawler $crawler)
     {
-        $crawler->filter('#js-nav-menu')->remove();
+        $crawler->filter('.docs-nav')->remove();
     }
 
     protected function removeFooter(HtmlPageCrawler $crawler)
