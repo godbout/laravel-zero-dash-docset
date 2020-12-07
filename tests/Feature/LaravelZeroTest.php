@@ -88,6 +88,22 @@ class LaravelZeroTest extends TestCase
     }
 
     /** @test */
+    public function the_edit_this_page_link_gets_removed_from_the_dash_docset_files()
+    {
+        $link = 'class="absolute h-8 hidden';
+
+        $this->assertStringContainsString(
+            $link,
+            Storage::get($this->docset->downloadedIndex())
+        );
+
+        $this->assertStringNotContainsString(
+            $link,
+            Storage::get($this->docset->innerIndex())
+        );
+    }
+
+    /** @test */
     public function the_footer_gets_removed_from_the_dash_docset_files()
     {
         $footer = '<footer';
