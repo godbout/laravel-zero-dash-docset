@@ -83,12 +83,9 @@ class LaravelZero extends BaseDocset
         $this->removeEditThisPageLink($crawler);
         $this->removeFooter($crawler);
 
-        $this->updateTopPadding($crawler);
+        $this->updateTopMargin($crawler);
         $this->updateContainerWidth($crawler);
-        $this->updateBottomPadding($crawler);
-
-        $this->removeUnwantedCSS($crawler);
-        $this->removeUnwantedJavaScript($crawler);
+        $this->updateBottomMargin($crawler);
 
         $this->insertOnlineRedirection($crawler, $file);
         $this->insertDashTableOfContents($crawler);
@@ -123,7 +120,7 @@ class LaravelZero extends BaseDocset
         $crawler->filter('body > footer')->remove();
     }
 
-    protected function updateTopPadding(HtmlPageCrawler $crawler)
+    protected function updateTopMargin(HtmlPageCrawler $crawler)
     {
         $crawler->filter('h1')
             ->css('margin-top', '1rem')
@@ -132,36 +129,24 @@ class LaravelZero extends BaseDocset
 
     protected function updateContainerWidth(HtmlPageCrawler $crawler)
     {
-        $crawler->filter('section.container > div > div')
-            ->removeClass('lg:w-3/5')
-            ->removeClass('lg:pl-4')
+        $container = $crawler->filter('.DocSearch-content');
+
+        $container->removeClass('lg:ml-10')
+            ->removeClass('lg:px-0')
+            ->removeClass('xl:ml-16')
+            ->removeClass('px-3')
         ;
 
-        $crawler->filter('section.container')
-            ->removeClass('max-w-4xl')
-            ->removeClass('md:px-8')
-            ->removeClass('container')
-        ;
+        $container->addClass('px-6');
     }
 
-    protected function updateBottomPadding(HtmlPageCrawler $crawler)
+    protected function updateBottomMargin(HtmlPageCrawler $crawler)
     {
-        $crawler->filter('section > div > div')
-            ->removeClass('pb-16')
-        ;
-    }
+        $content = $crawler->filter('section > div > div');
 
-    protected function removeUnwantedCSS(HtmlPageCrawler $crawler)
-    {
-        $crawler->filter('link[href*="docsearch.min.css"]')->remove();
-    }
+        $content->removeClass('mb-20');
 
-    protected function removeUnwantedJavaScript(HtmlPageCrawler $crawler)
-    {
-        $crawler->filter('script[src*=docsearch]')->remove();
-        $crawler->filter('script[src*=gtag]')->remove();
-        $crawler->filterXPath("//script[text()[contains(.,'docsearch')]]")->remove();
-        $crawler->filterXPath("//script[text()[contains(.,'gtag')]]")->remove();
+        $content->css('margin-bottom', '4rem');
     }
 
     protected function insertOnlineRedirection(HtmlPageCrawler $crawler, string $file)

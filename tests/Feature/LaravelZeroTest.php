@@ -127,7 +127,7 @@ class LaravelZeroTest extends TestCase
         );
 
         $this->assertTrue(
-            $crawler->filter('section.container > div > div')->hasClass('lg:w-3/5')
+            $crawler->filter('.DocSearch-content')->hasClass('lg:ml-10')
         );
 
 
@@ -136,19 +136,41 @@ class LaravelZeroTest extends TestCase
         );
 
         $this->assertFalse(
-            $crawler->filter('section.container > div > div')->hasClass('lg:w-3/5')
+            $crawler->filter('.DocSearch-content')->hasClass('lg:ml-10')
         );
     }
 
     /** @test */
-    public function the_bottom_padding_gets_updated_in_the_dash_docset_files()
+    public function the_top_margin_gets_updated_in_the_dash_docset_files()
+    {
+        $crawler = HtmlPageCrawler::create(
+            Storage::get($this->docset->downloadedIndex())
+        );
+
+        $this->assertNull(
+            $crawler->filter('h1')->css('margin-top')
+        );
+
+
+        $crawler = HtmlPageCrawler::create(
+            Storage::get($this->docset->innerIndex())
+        );
+
+        $this->assertEquals(
+            '1rem',
+            $crawler->filter('h1')->css('margin-top')
+        );
+    }
+
+    /** @test */
+    public function the_bottom_margin_gets_updated_in_the_dash_docset_files()
     {
         $crawler = HtmlPageCrawler::create(
             Storage::get($this->docset->downloadedIndex())
         );
 
         $this->assertTrue(
-            $crawler->filter('section > div > div')->hasClass('pb-16')
+            $crawler->filter('section > div > div')->hasClass('mb-20')
         );
 
 
@@ -157,21 +179,7 @@ class LaravelZeroTest extends TestCase
         );
 
         $this->assertFalse(
-            $crawler->filter('section > div > div')->hasClass('pb-16')
-        );
-    }
-
-    /** @test */
-    public function the_JavaScript_tags_get_removed_from_the_dash_docset_files()
-    {
-        $this->assertStringContainsString(
-            '<script ',
-            Storage::get($this->docset->downloadedIndex())
-        );
-
-        $this->assertStringNotContainsString(
-            '<script ',
-            $this->docset->innerIndex()
+            $crawler->filter('section > div > div')->hasClass('mb-20')
         );
     }
 
