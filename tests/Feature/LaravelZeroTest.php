@@ -43,18 +43,23 @@ class LaravelZeroTest extends TestCase
     }
 
     /** @test */
-    public function the_header_gets_removed_from_the_dash_docset_files()
+    public function the_header_gets_hidden_in_the_dash_docset_files()
     {
-        $header = '<header';
-
-        $this->assertStringContainsString(
-            $header,
+        $crawler = HtmlPageCrawler::create(
             Storage::get($this->docset->downloadedIndex())
         );
 
-        $this->assertStringNotContainsString(
-            $header,
+        $this->assertFalse(
+            $crawler->filter('header')->hasClass('hidden')
+        );
+
+
+        $crawler = HtmlPageCrawler::create(
             Storage::get($this->docset->innerIndex())
+        );
+
+        $this->assertTrue(
+            $crawler->filter('header')->hasClass('hidden')
         );
     }
 
