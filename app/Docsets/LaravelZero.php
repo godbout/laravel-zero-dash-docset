@@ -78,7 +78,7 @@ class LaravelZero extends BaseDocset
     {
         $crawler = HtmlPageCrawler::create(Storage::get($file));
 
-        $this->removeHeader($crawler);
+        $this->hideHeader($crawler);
         $this->removeLeftSidebar($crawler);
         $this->removeFooter($crawler);
 
@@ -94,9 +94,15 @@ class LaravelZero extends BaseDocset
         return $crawler->saveHTML();
     }
 
-    protected function removeHeader(HtmlPageCrawler $crawler)
+    protected function hideHeader(HtmlPageCrawler $crawler)
     {
-        $crawler->filter('body > header')->remove();
+        /**
+         * hide rather than remove
+         *
+         * if we remove the header, the code formatting stops working
+         * so we hide it instead. genius.
+         */
+        $crawler->filter('body > header')->addClass('hidden');
     }
 
     protected function removeLeftSidebar(HtmlPageCrawler $crawler)
