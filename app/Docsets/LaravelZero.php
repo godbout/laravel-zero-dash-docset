@@ -80,6 +80,7 @@ class LaravelZero extends BaseDocset
 
         $this->hideHeader($crawler);
         $this->removeLeftSidebar($crawler);
+        $this->removeEditThisPageLink($crawler);
         $this->removeFooter($crawler);
 
         $this->updateTopPadding($crawler);
@@ -110,6 +111,11 @@ class LaravelZero extends BaseDocset
     {
         $crawler->filter('.docs-nav')->remove();
         $crawler->filter('nav.hidden.mt-1')->remove();
+    }
+
+    protected function removeEditThisPageLink(HtmlPageCrawler $crawler)
+    {
+        $crawler->filter('.DocSearch-content > div')->remove();
     }
 
     protected function removeFooter(HtmlPageCrawler $crawler)
