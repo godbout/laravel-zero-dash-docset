@@ -89,6 +89,7 @@ class LaravelZero extends BaseDocset
         $this->removeUnwantedCSS($crawler);
         $this->removeUnwantedJavaScript($crawler);
 
+        $this->insertOnlineRedirection($crawler, $file);
         $this->insertDashTableOfContents($crawler);
 
         return $crawler->saveHTML();
@@ -154,6 +155,13 @@ class LaravelZero extends BaseDocset
         $crawler->filter('script[src*=gtag]')->remove();
         $crawler->filterXPath("//script[text()[contains(.,'docsearch')]]")->remove();
         $crawler->filterXPath("//script[text()[contains(.,'gtag')]]")->remove();
+    }
+
+    protected function insertOnlineRedirection(HtmlPageCrawler $crawler, string $file)
+    {
+        $onlineUrl = Str::substr(Str::after($file, $this->innerDirectory()), 1, -5);
+
+        $crawler->filter('html')->prepend("<!-- Online page at https://$onlineUrl -->");
     }
 
     protected function insertDashTableOfContents(HtmlPageCrawler $crawler)
