@@ -61,15 +61,28 @@ class LaravelZeroTest extends TestCase
     /** @test */
     public function the_left_sidebar_gets_removed_from_the_dash_docset_files()
     {
-        $leftSidebar = 'class="docs-nav';
+        $leftSidebarFirstPart = 'class="docs-nav';
 
         $this->assertStringContainsString(
-            $leftSidebar,
+            $leftSidebarFirstPart,
             Storage::get($this->docset->downloadedIndex())
         );
 
         $this->assertStringNotContainsString(
-            $leftSidebar,
+            $leftSidebarFirstPart,
+            Storage::get($this->docset->innerIndex())
+        );
+
+
+        $leftSidebarSecondPart = 'class="hidden lg:block mt-1"';
+
+        $this->assertStringContainsString(
+            $leftSidebarSecondPart,
+            Storage::get($this->docset->downloadedIndex())
+        );
+
+        $this->assertStringNotContainsString(
+            $leftSidebarSecondPart,
             Storage::get($this->docset->innerIndex())
         );
     }

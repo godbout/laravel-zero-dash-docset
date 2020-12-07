@@ -109,6 +109,7 @@ class LaravelZero extends BaseDocset
     protected function removeLeftSidebar(HtmlPageCrawler $crawler)
     {
         $crawler->filter('.docs-nav')->remove();
+        $crawler->filter('nav.hidden.mt-1')->remove();
     }
 
     protected function removeFooter(HtmlPageCrawler $crawler)
