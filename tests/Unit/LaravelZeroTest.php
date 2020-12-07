@@ -30,15 +30,15 @@ class LaravelZeroTest extends TestCase
     /** @test */
     public function it_can_format_the_documentation_files()
     {
-        $header = '<header';
+        $footer = '<footer';
 
         $this->assertStringContainsString(
-            $header,
+            $footer,
             Storage::get($this->docset->downloadedDirectory() . '/' . $this->docset->url() . '/docs/logging.html')
         );
 
         $this->assertStringNotContainsString(
-            $header,
+            $footer,
             $this->docset->format(
                 $this->docset->downloadedDirectory() . '/' . $this->docset->url() . '/docs/logging.html'
             )
