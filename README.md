@@ -1,7 +1,7 @@
 <h1 align="center">Laravel Zero Dash Docset</h1>
 
 <p align="center">
-    <a href="https://travis-ci.com/godbout/laravel-zero-dash-docset"><img src="https://img.shields.io/travis/com/godbout/laravel-zero-dash-docset/master.svg?style=flat-square" alt="Build Status"></a>
+    <a href="https://github.com/godbout/laravel-zero-dash-docset/actions"><img src="https://img.shields.io/github/workflow/status/godbout/laravel-zero-dash-docset/tests" alt="Build Status"></a>
     <a href="https://scrutinizer-ci.com/g/godbout/laravel-zero-dash-docset"><img src="https://img.shields.io/scrutinizer/g/godbout/laravel-zero-dash-docset.svg?style=flat-square" alt="Quality Score"></a>
     <a href="https://scrutinizer-ci.com/g/godbout/laravel-zero-dash-docset"><img src="https://scrutinizer-ci.com/g/godbout/laravel-zero-dash-docset/badges/coverage.png?b=master" alt="Code Coverage"></a>
 </p>
